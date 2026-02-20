@@ -2,19 +2,19 @@
 Tiny CS2 fake server for logging on to Steam game servers, establishing a GC connection and being displayed in the in-game server browser. It is **not** a real game server.
 
 ## Dependencies
- - [hl2sdk-csgo](https://github.com/alliedmodders/hl2sdk/tree/csgo)
+ - [hl2sdk-cs2](https://github.com/alliedmodders/hl2sdk/tree/cs2)
  - [Asio](https://github.com/chriskohlhoff/asio)
  - CMake
 
 ## Compile and Run
 ### Windows
-1. Configure path of hl2sdk-csgo and Asio in `build.bat`.
+1. Configure path of hl2sdk-cs2 and Asio in `build.bat`.
 2. Run `build.bat`.
 3. Move files from `bin/windows` next to `tiny-csgo-server.exe`.
 4. Run `tiny-csgo-server.exe`.
 
 ### Linux
-1. Configure path of hl2sdk-csgo and Asio in `build.sh`.
+1. Configure path of hl2sdk-cs2 and Asio in `build.sh`.
 2. Run `build.sh`.
 3. Move files from `bin/linux` next to `tiny-csgo-server`.
 4. Set the executable directory to `LD_LIBRARY_PATH`.
@@ -78,3 +78,10 @@ Notes:
 - Ports are assigned sequentially from `start_port`.
 - `count` creates several instances from one server template.
 - If tokens are fewer than instances, extra instances run without `-gslt`.
+
+
+### Manual CMake (cs2 SDK)
+```bash
+cmake -S . -B build -DHL2SDK_DIR=/path/to/hl2sdk-cs2 -DASIO_SRC=/path/to/asio
+cmake --build build
+```
