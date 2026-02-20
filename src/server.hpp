@@ -34,6 +34,8 @@ public:
 public:
 	void InitializeServer()
 	{
+		ApplyConfiguredInfo();
+
 		//Connect to steam game server
 		Steam3Server().InitServer(m_ArgParser.GetOptionValueInt16U("-port"),
 			m_ArgParser.GetOptionValueString("-version"), m_ArgParser.HasOption("-vac"));
@@ -410,6 +412,23 @@ private:
 	}
 
 private:
+	void ApplyConfiguredInfo()
+	{
+		auto& info = GetServerInfoHolder();
+		info.ServerName() = m_ArgParser.GetOptionValueString("-hostname");
+		info.ServerMap() = m_ArgParser.GetOptionValueString("-map");
+		info.ServerDescription() = m_ArgParser.GetOptionValueString("-description");
+		info.ServerTag() = m_ArgParser.GetOptionValueString("-tags");
+		info.ServerNumClients() = m_ArgParser.GetOptionValueInt8U("-players");
+		info.ServerMaxClients() = m_ArgParser.GetOptionValueInt8U("-maxplayers");
+		info.ServerNumFakeClient() = m_ArgParser.GetOptionValueInt8U("-bots");
+		info.ServerVacStatus() = m_ArgParser.HasOption("-vac");
+		m_ServerRegion = m_ArgParser.GetOptionValueString("-region");
+
+		if (info.ServerNumClients() > info.ServerMaxClients())
+			info.ServerNumClients() = info.ServerMaxClients();
+	}
+
 	void SendUpdatedServerDetails()
 	{
 		auto& info = GetServerInfoHolder();
@@ -423,7 +442,7 @@ private:
 		SteamGameServer()->SetMaxPlayerCount(info.ServerMaxClients());
 		SteamGameServer()->SetBotPlayerCount(info.ServerNumFakeClient());
 		SteamGameServer()->SetSpectatorPort(0);
-		SteamGameServer()->SetRegion(SERVER_REGION);
+		SteamGameServer()->SetRegion(m_ServerRegion.c_str());
 	}
 
 	void UpdateGCInformation()
@@ -498,6 +517,7 @@ private:
 	uint32_t	m_VersionInt = 0;
 
 	std::string m_RedirectIP;
+	std::string m_ServerRegion = SERVER_REGION;
 	uint16_t	m_RedirectPort;
 
 	udp::endpoint m_RedirectEdp;

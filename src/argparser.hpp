@@ -202,7 +202,7 @@ public:
 	const char* GetOptionValueString(const char* optionName)
 	{
 		auto& opt = EnsureOptionExist(optionName);
-		return opt.value.c_str();
+		return (opt.exist ? opt.value : opt.default_value).c_str();
 	}
 
 	uint8_t GetOptionValueInt8U(const char* optionName)
