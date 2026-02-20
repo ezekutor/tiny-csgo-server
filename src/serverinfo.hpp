@@ -12,7 +12,7 @@ public:
 	std::string& ServerGameFolder() { return m_ServerGameFolder; }
 	std::string& ServerDescription() { return m_ServerDescription; }
 	constexpr uint16_t ServerAppID() { return SERVER_APPID; }
-	const uint8_t ServerNumClients() { return m_ServerMaxClients - 1; }
+	uint8_t& ServerNumClients() { return m_ServerNumClients; }
 	uint8_t& ServerMaxClients() { return m_ServerMaxClients; }
 	uint8_t& ServerNumFakeClient() { return m_ServerNumFakeClients; }
 	uint8_t& ServerType() { return m_ServerType; }
@@ -73,4 +73,3 @@ inline ServerInfoHolder& GetServerInfoHolder()
 }
 
 #endif // !__TINY_CSGO_SERVER_SERVERINFO_HPP__
-
